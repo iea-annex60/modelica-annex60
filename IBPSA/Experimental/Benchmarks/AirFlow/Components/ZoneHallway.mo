@@ -43,11 +43,11 @@ model ZoneHallway
     densitySelection=IBPSA.Airflow.Multizone.Types.densitySelection.fromBottom)
     "Upper air column between top orifice to outside and indoor air volume"
     annotation (Placement(transformation(extent={{50,20},{70,40}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a_toZone(redeclare package Medium
-      = Medium) "Direct connection to air volume without orifice"
+  Modelica.Fluid.Interfaces.FluidPort_a port_a_toZone(redeclare package Medium =
+        Medium) "Direct connection to air volume without orifice"
     annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b_toZone(redeclare package Medium
-      = Medium) "Direct connection to air volume without orifice"
+  Modelica.Fluid.Interfaces.FluidPort_b port_b_toZone(redeclare package Medium =
+        Medium) "Direct connection to air volume without orifice"
     annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a_toOutside(redeclare package
       Medium = Medium) "Indirect connection to air volume with orifice"
@@ -102,8 +102,7 @@ model ZoneHallway
     redeclare package Medium = Medium,
     A=widthRoom*heightRoom/2,
     forceErrorControlOnFlow=forceErrorControlOnFlow)
-    "Upper orifice between this hallway element and subsequent hallway element"
-                                                                                annotation (Placement(
+    "Upper orifice between this hallway element and subsequent hallway element" annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,

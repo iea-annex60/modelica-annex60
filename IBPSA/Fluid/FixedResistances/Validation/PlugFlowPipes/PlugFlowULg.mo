@@ -1,4 +1,4 @@
-within IBPSA.Fluid.FixedResistances.Validation.PlugFlowPipes;
+﻿within IBPSA.Fluid.FixedResistances.Validation.PlugFlowPipes;
 model PlugFlowULg "Validation against data from Université de Liège"
   extends Modelica.Icons.Example;
   package Medium = IBPSA.Media.Water;

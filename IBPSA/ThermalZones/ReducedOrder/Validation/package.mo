@@ -1,6 +1,5 @@
 within IBPSA.ThermalZones.ReducedOrder;
-package Validation
-  "Collection of validation models"
+package Validation "Collection of validation models"
   extends Modelica.Icons.ExamplesPackage;
 
 

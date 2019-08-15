@@ -3,8 +3,7 @@ model PropyleneGlycolWaterProperties
   "Model that tests the implementation of the fluid properties"
   extends Modelica.Icons.Example;
   extends IBPSA.Media.Examples.BaseClasses.FluidProperties(
-    redeclare package Medium = IBPSA.Media.Antifreeze.PropyleneGlycolWater
-        (
+    redeclare package Medium = IBPSA.Media.Antifreeze.PropyleneGlycolWater (
       X_a=0.60,
       property_T=293.15),
     TMin=273.15,
