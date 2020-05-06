@@ -1,0 +1,2 @@
+simulateModel("IBPSA.Fluid.HeatExchangers.Validation.WetCoilEffectivenessNTU", stopTime=50000, method="Lsodar", tolerance=1e-06, resultFile="WetCoilEffectivenessNTU");
+createPlot(id=1, position={0, 0, 1374, 682}, y={"cooCoi16.Q2_flow", "cooCoi7.Q2_flow", "cooCoi7Param16.Q2_flow", "cooData.y[2]", "cooData.y[4]"}, range={0.0, 50000.0, -200.0, 3000.0}, grid=true, colors={{238,46,47}, {28,108,200}, {0,140,72}, {0,140,72}, {217,67,180}});

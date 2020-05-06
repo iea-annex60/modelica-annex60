@@ -5,6 +5,7 @@ HeaterCooler_u
 Heater_T
 PrescribedOutlet
 SensibleCooler_T
+WetCoilEffectivesnessNTU
 ActiveBeams
 Radiators
 Examples

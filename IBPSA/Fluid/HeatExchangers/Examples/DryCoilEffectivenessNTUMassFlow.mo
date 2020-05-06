@@ -22,7 +22,7 @@ model DryCoilEffectivenessNTUMassFlow
     Q_flow_nominal=Q_flow_nominal,
     T_a1_nominal=T_a1_nominal,
     T_a2_nominal=T_a2_nominal,
-    show_T=true)             annotation (Placement(transformation(extent={{82,20},
+    show_T=true)          annotation (Placement(transformation(extent={{82,20},
             {102,40}})));
 
   IBPSA.Fluid.Sensors.RelativeHumidityTwoPort senRelHum(
