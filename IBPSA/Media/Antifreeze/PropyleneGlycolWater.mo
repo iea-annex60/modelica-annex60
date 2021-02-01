@@ -30,10 +30,15 @@ package PropyleneGlycolWater
   constant Modelica.SIunits.MassFraction X_a
     "Mass fraction of propylene glycol in water";
 
+protected
+  constant Boolean reference_T_is_0degC = abs(reference_T-273.15) < 1E-6
+    "True if reference_T = 273.15 K, used to simplify equations";
+
+public
   redeclare model BaseProperties "Base properties"
-    Temperature T(stateSelect=
-      if preferredMediumStates then StateSelect.prefer else StateSelect.default)
-      "Temperature of medium";
+    Temperature T(
+      stateSelect=StateSelect.avoid,
+      nominal=100) "Temperature of medium";
 
     InputAbsolutePressure p "Absolute pressure of medium";
     InputMassFraction[nXi] Xi=fill(0, 0)
@@ -55,8 +60,9 @@ package PropyleneGlycolWater
       annotation(Evaluate=true, Dialog(tab="Advanced"));
     final parameter Boolean standardOrderComponents=true
       "If true, and reducedX = true, the last element of X will be computed from the other ones";
-    Modelica.SIunits.Conversions.NonSIunits.Temperature_degC T_degC=
-        Modelica.SIunits.Conversions.to_degC(T)
+    Modelica.SIunits.Conversions.NonSIunits.Temperature_degC T_degC(
+      nominal=10,
+      stateSelect=if preferredMediumStates then StateSelect.prefer else StateSelect.default)
       "Temperature of medium in [degC]";
     Modelica.SIunits.Conversions.NonSIunits.Pressure_bar p_bar=
         Modelica.SIunits.Conversions.to_bar(p)
@@ -87,7 +93,13 @@ as required from medium model \"" + mediumName + "\".");
 In "   + getInstanceName() + ": Mass fraction x_a exceeded its maximum allowed value of " + String(X_a_max) + "
 as required from medium model \"" + mediumName + "\".");
 
-    h = cp_const*(T-reference_T);
+    if reference_T_is_0degC then
+      T_degC = h/cp_const;
+    else
+      T = reference_T + h/cp_const;
+    end if;
+    T_degC = T - 273.15;
+
     u = h;
     state.T = T;
     state.p = p;

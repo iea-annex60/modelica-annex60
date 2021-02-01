@@ -1,6 +1,7 @@
 within IBPSA.Media;
 package Water "Package with model for liquid water with constant density"
    extends Modelica.Media.Water.ConstantPropertyLiquidWater(
+     mediumName="IBPSA.Media.Water",
      p_default=300000,
      reference_p=300000,
      reference_T=273.15,
@@ -12,6 +13,11 @@ package Water "Package with model for liquid water with constant density"
   // cp_const and cv_const have been made final because the model sets u=h.
   extends Modelica.Icons.Package;
 
+protected
+  constant Boolean reference_T_is_0degC = abs(reference_T-273.15) < 1E-6
+    "True if reference_T = 273.15 K, used to simplify equations";
+
+public
   redeclare replaceable model BaseProperties "Base properties (p, d, T, h, u, R, MM and X and Xi) of a medium"
     parameter Boolean preferredMediumStates=false
       "= true if StateSelect.prefer shall be used for the independent property variables of the medium"
@@ -19,14 +25,16 @@ package Water "Package with model for liquid water with constant density"
     final parameter Boolean standardOrderComponents=true
       "If true, and reducedX = true, the last element of X will be computed from the other ones";
     Modelica.SIunits.Density d=d_const "Density of medium";
-    Temperature T(stateSelect=
-      if preferredMediumStates then StateSelect.prefer else StateSelect.default)
+    Temperature T(
+      stateSelect=StateSelect.avoid,
+      nominal=100)
       "Temperature of medium";
     InputAbsolutePressure p "Absolute pressure of medium";
     InputMassFraction[nXi] Xi=fill(0, 0)
       "Structurally independent mass fractions";
     InputSpecificEnthalpy h "Specific enthalpy of medium";
-    Modelica.SIunits.SpecificInternalEnergy u
+    Modelica.SIunits.SpecificInternalEnergy u(
+      nominal=1E4)
       "Specific internal energy of medium";
 
     Modelica.SIunits.MassFraction[nX] X={1}
@@ -39,8 +47,9 @@ package Water "Package with model for liquid water with constant density"
       "Thermodynamic state record for optional functions";
 
 
-    Modelica.SIunits.Conversions.NonSIunits.Temperature_degC T_degC=
-        Modelica.SIunits.Conversions.to_degC(T)
+    Modelica.SIunits.Conversions.NonSIunits.Temperature_degC T_degC(
+      nominal=10,
+      stateSelect=if preferredMediumStates then StateSelect.prefer else StateSelect.default)
       "Temperature of medium in [degC]";
     Modelica.SIunits.Conversions.NonSIunits.Pressure_bar p_bar=
         Modelica.SIunits.Conversions.to_bar(p)
@@ -55,7 +64,13 @@ package Water "Package with model for liquid water with constant density"
       "Mass fraction as input signal connector";
 
   equation
-    h = cp_const*(T-reference_T);
+    if reference_T_is_0degC then
+      T_degC = h/cp_const;
+    else
+      T = reference_T + h/cp_const;
+    end if;
+    T_degC = T - 273.15;
+
     u = h;
     state.T = T;
     state.p = p;

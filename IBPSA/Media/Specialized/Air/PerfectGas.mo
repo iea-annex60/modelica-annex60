@@ -22,13 +22,21 @@ package PerfectGas "Model for air as a perfect gas"
 
   redeclare record extends ThermodynamicState(
     p(start=p_default),
-    T(start=T_default),
+    T(start=T_default,
+      nominal=100),
     X(start=X_default)) "ThermodynamicState record for moist air"
   end ThermodynamicState;
 
   redeclare replaceable model extends BaseProperties(
-    p(stateSelect=if preferredMediumStates then StateSelect.prefer else StateSelect.default),
-    Xi(each stateSelect=if preferredMediumStates then StateSelect.prefer else StateSelect.default),
+    u(nominal=1E4),
+    p(stateSelect=StateSelect.avoid),
+    T(start=T_default,
+      stateSelect=StateSelect.avoid,
+      nominal=100),
+    d(stateSelect=StateSelect.avoid),
+    Xi(
+      nominal={0.01},
+      each stateSelect=if preferredMediumStates then StateSelect.prefer else StateSelect.default),
     final standardOrderComponents=true)
 
     /* p, T, X = X[Water] are used as preferred states, since only then all
@@ -39,6 +47,17 @@ package PerfectGas "Model for air as a perfect gas"
   protected
     constant Modelica.SIunits.MolarMass[2] MMX = {steam.MM,dryair.MM}
       "Molar masses of components";
+
+    Modelica.SIunits.TemperatureDifference dT(
+      nominal=10,
+      stateSelect=if preferredMediumStates then StateSelect.prefer else StateSelect.default) = T - reference_T
+      "Temperature difference used to compute enthalpy";
+    // Nominal value is 100/1E5=1E-3
+    Modelica.Media.Interfaces.Types.Density dd(
+      nominal=1E-3,
+      stateSelect=if preferredMediumStates then StateSelect.prefer else StateSelect.default) = d - 1.2
+      "Density of medium";
+
 
     MassFraction X_steam "Mass fraction of steam water";
     MassFraction X_air "Mass fraction of air";
@@ -55,8 +74,8 @@ as required from medium model \"" + mediumName + "\".");
     X_steam  = Xi[Water];
     X_air    = 1-Xi[Water];
 
-    h = (T - reference_T)*dryair.cp * (1 - Xi[Water]) +
-        ((T-reference_T) * steam.cp + h_fg) * Xi[Water];
+    h = dT*dryair.cp * (1 - Xi[Water]) +
+        (dT * steam.cp + h_fg) * Xi[Water];
 
     R = dryair.R*(1 - X_steam) + steam.R*X_steam;
     //
@@ -586,7 +605,7 @@ First implementation.
     "Return specific entropy of moist air as a function of pressure p, temperature T and composition X (only valid for phi<1)";
   function s_pTX_der = Modelica.Media.Air.MoistAir.s_pTX_der
     "Return specific entropy of moist air as a function of pressure p, temperature T and composition X (only valid for phi<1)";
-  annotation(preferredView="info", Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 This package contains a <i>thermally perfect</i> model of moist air.
 </p>
@@ -636,6 +655,13 @@ space dimension</i>. CRC Press. 1998.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+November 6, 2020, by Michael Wetter and Filip Jorissen:<br/>
+Solved equation between pressure and density in the base properties
+for pressure, as this is what the symbolic formulation usually needs.<br/>
+This is for
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1412\">1412</a>.
+</li>
 <li>
 October 26, 2018, by Filip Jorissen and Michael Wetter:<br/>
 Now printing different messages if temperature is above or below its limit,
