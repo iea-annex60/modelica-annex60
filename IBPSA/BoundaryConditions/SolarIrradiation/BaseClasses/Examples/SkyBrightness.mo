@@ -46,6 +46,14 @@ equation
       textString="%second",
       index=1,
       extent={{6,3},{6,3}}));
+  connect(weaBus.solTim, skyBri.SolarTime) annotation (Line(
+      points={{-40,-10},{-40,-14.4},{58,-14.4}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
   annotation (
 Documentation(info="<html>
 <p>
@@ -53,6 +61,12 @@ This example computes the sky brightness.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+May 2, 2021, by Ettore Zanetti:<br/>
+Changed extraterrestrial radiation and added time dependant correlation.<br/>
+This is for
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\">#1477</a>.
+</li>
 <li>
 July 07, 2010, by Wangda Zuo:<br/>
 First implementation.

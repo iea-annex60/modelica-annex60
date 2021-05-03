@@ -10,10 +10,8 @@ model WD100
     "Altitude";
   WeatherData.ReaderTMY3 weaDatHHorIR(
     pAtmSou=IBPSA.BoundaryConditions.Types.DataSource.File,
-    ceiHeiSou=IBPSA.BoundaryConditions.Types.DataSource.Parameter,
-    ceiHei=alt,
     filNam=Modelica.Utilities.Files.loadResource(
-      "modelica://IBPSA/Resources/Data/BoundaryConditions/Validation/BESTEST/725650.mos"),
+      "modelica://IBPSA/Resources/Data/BoundaryConditions/Validation/BESTEST/WD100.mos"),
     calTSky=IBPSA.BoundaryConditions.Types.SkyTemperatureCalculation.HorizontalRadiation)
     "Reads all weather data and Tsky using horizontal radiation"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},rotation=90,origin={0,-90})));
@@ -23,6 +21,7 @@ model WD100
   IsotropicAndPerezDiffuseRadiation azi000til00(
     til=IBPSA.Types.Tilt.Ceiling,
     lat=lat,
+	alt=alt,
     azi=IBPSA.Types.Azimuth.S,
     rho=rho)
     "Azimuth = Horizontal, Tilt = 0 °"
@@ -30,6 +29,7 @@ model WD100
   IsotropicAndPerezDiffuseRadiation azi000til90(
     til=IBPSA.Types.Tilt.Wall,
     lat=lat,
+	alt=alt,
     azi=IBPSA.Types.Azimuth.S,
     rho=rho)
     "Azimuth = South, Tilt = 90 °"
@@ -37,6 +37,7 @@ model WD100
   IsotropicAndPerezDiffuseRadiation azi270til90(
     til=IBPSA.Types.Tilt.Wall,
     lat=lat,
+	alt=alt,
     azi=IBPSA.Types.Azimuth.E,
     rho=rho)
     "Azimuth = East, Tilt = 90 °"
@@ -44,6 +45,7 @@ model WD100
   IsotropicAndPerezDiffuseRadiation azi180til90(
     til=IBPSA.Types.Tilt.Wall,
     lat=lat,
+	alt=alt,
     azi=IBPSA.Types.Azimuth.N,
     rho=rho)
     "Azimuth = North, Tilt = 90 °"
@@ -51,6 +53,7 @@ model WD100
   IsotropicAndPerezDiffuseRadiation azi090til90(
     til=IBPSA.Types.Tilt.Wall,
     lat=lat,
+	alt=alt,
     azi=IBPSA.Types.Azimuth.W,
     rho=rho)
     "Azimuth =  West, Tilt = 90 °"
@@ -58,6 +61,7 @@ model WD100
   IsotropicAndPerezDiffuseRadiation azi315til90(
     til=IBPSA.Types.Tilt.Wall,
     lat=lat,
+	alt=alt,
     azi=IBPSA.Types.Azimuth.SE,
     rho=rho)
     "Azimuth = 45 ° SE, Tilt = 0 °"
@@ -65,6 +69,7 @@ model WD100
   IsotropicAndPerezDiffuseRadiation azi045til90(
     til=IBPSA.Types.Tilt.Wall,
     lat=lat,
+	alt=alt,
     azi=IBPSA.Types.Azimuth.SW,
     rho=rho)
     "Azimuth = 45 SW, Tilt = 90 °"
@@ -72,6 +77,7 @@ model WD100
   IsotropicAndPerezDiffuseRadiation azi270til30(
     til=0.5235987755983,
     lat=lat,
+	alt=alt,
     azi=IBPSA.Types.Azimuth.E,
     rho=rho)
     "Azimuth = East, Tilt = 30 °"
@@ -79,6 +85,7 @@ model WD100
   IsotropicAndPerezDiffuseRadiation azi000til30(
     til=0.5235987755983,
     lat=lat,
+	alt=alt,
     azi=IBPSA.Types.Azimuth.S,
     rho=rho)
     "Azimuth = South, Tilt = 0 °"
@@ -86,6 +93,7 @@ model WD100
   IsotropicAndPerezDiffuseRadiation azi090til30(
     til=0.5235987755983,
     lat=lat,
+	alt=alt,
     azi=IBPSA.Types.Azimuth.W,
     rho=rho)
     "Azimuth = West, Tilt = 0 °"
@@ -96,10 +104,8 @@ model WD100
     annotation (Placement(transformation(extent={{-72,-80},{-92,-60}})));
   WeatherData.ReaderTMY3 weaDatTDryBulTDewPoinOpa(
     pAtmSou=IBPSA.BoundaryConditions.Types.DataSource.File,
-    ceiHeiSou=IBPSA.BoundaryConditions.Types.DataSource.Parameter,
-    ceiHei=alt,
     filNam=Modelica.Utilities.Files.loadResource(
-      "modelica://IBPSA/Resources/Data/BoundaryConditions/Validation/BESTEST/725650.mos"),
+      "modelica://IBPSA/Resources/Data/BoundaryConditions/Validation/BESTEST/WD100.mos"),
     calTSky=IBPSA.BoundaryConditions.Types.SkyTemperatureCalculation.TemperaturesAndSkyCover)
     "Reads all weather data and Tsky using dry bulb temperature, dew point temperature and sky cover"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},rotation=90,origin={70,-90})));
@@ -150,9 +156,9 @@ equation
     Documentation(
       info="<html>
 <h4>WD100: Base Case</h4>
-<p>Weather data file : 725650.epw</p>
-<p><i>Table 1: Site Data for Weather file 725650.epw</i></p>
-<table summary=\"Site Data for Weather file 725650.epw\" cellspacing=\"2\" cellpadding=\"0\" border=\"1\"><tr>
+<p>Weather data file : WD100.epw</p>
+<p><i>Table 1: Site Data for Weather file WD100.epw</i></p>
+<table summary=\"Site Data for Weather file WD100.epw\" cellspacing=\"2\" cellpadding=\"0\" border=\"1\"><tr>
 <td><p>Latitude</p></td>
 <td><p>39.833&deg; north</p></td>
 </tr>
@@ -166,7 +172,7 @@ equation
 </tr>
 <tr>
 <td><p>Time Zone</p></td>
-<td><p>7</p></td>
+<td><p>-7</p></td>
 </tr>
 </table>
 <p>This model is a template for all the other test cases.
@@ -187,6 +193,16 @@ First implementation.
 April 14, 2020, by Ettore Zanetti:<br/>
 Rework after comments from pull request
 <a href=\"https://github.com/ibpsa/modelica-ibpsa/pull/1339\">#1339</a>.
+</li>
+<li>
+May 2, 2021, by Ettore Zanetti:<br/>
+Updated weather file as explained in <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1478\">#1478</a>.
+</li>
+<li>
+May 2, 2021, by Ettore Zanetti:<br/>
+Added altitude to parameters.<br/>
+This is for
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\">#1477</a>.
 </li>
 </ul>
 </html>"));

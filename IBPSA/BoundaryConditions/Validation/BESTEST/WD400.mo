@@ -7,10 +7,10 @@ model WD400
     alt=10,
     weaDatHHorIR(
       filNam=Modelica.Utilities.Files.loadResource(
-        "modelica://IBPSA/Resources/Data/BoundaryConditions/Validation/BESTEST/700260.mos")),
+        "modelica://IBPSA/Resources/Data/BoundaryConditions/Validation/BESTEST/WD400.mos")),
     weaDatTDryBulTDewPoinOpa(
       filNam=Modelica.Utilities.Files.loadResource(
-        "modelica://IBPSA/Resources/Data/BoundaryConditions/Validation/BESTEST/700260.mos")));
+        "modelica://IBPSA/Resources/Data/BoundaryConditions/Validation/BESTEST/WD400.mos")));
   annotation (
     experiment(
       StopTime=3.1536e+07,
@@ -30,13 +30,17 @@ April 14, 2020, by Ettore Zanetti:<br/>
 Rework after comments from pull request
 <a href=\"https://github.com/ibpsa/modelica-ibpsa/pull/1339\">#1339</a>.
 </li>
+<li>
+May 2, 2021, by Ettore Zanetti:<br/>
+Updated weather file as explained in <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1478\">#1478</a>.
+</li>
 </ul>
 </html>",
       info="<html>
 <h4>WD400: High Latitude Case</h4>
-<p>Weather data file : 700260.epw</p>
-<p><i>Table 1: Site Data for Weather file 700260.epw</i></p>
-<table summary=\"Site Data for Weather file 700260.epw\" cellspacing=\"2\" cellpadding=\"0\" border=\"1\"><tr>
+<p>Weather data file : WD400.epw</p>
+<p><i>Table 1: Site Data for Weather file WD400.epw</i></p>
+<table summary=\"Site Data for Weather file WD400.epw\" cellspacing=\"2\" cellpadding=\"0\" border=\"1\"><tr>
 <td><p>Latitude</p></td>
 <td><p>71.286&deg; north</p></td>
 </tr>
@@ -50,7 +54,7 @@ Rework after comments from pull request
 </tr>
 <tr>
 <td><p>Time Zone</p></td>
-<td><p>9</p></td>
+<td><p>-9</p></td>
 </tr>
 </table>
 </html>"));

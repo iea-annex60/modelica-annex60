@@ -13,3 +13,4 @@ GetTimeSpanTMY3_NonzeroStart
 LimitMin
 LocalCivilTime
 SolarTime
+GetAltitudeTMY3

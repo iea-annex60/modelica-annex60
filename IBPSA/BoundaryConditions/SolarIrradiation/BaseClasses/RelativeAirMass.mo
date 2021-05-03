@@ -1,6 +1,7 @@
 within IBPSA.BoundaryConditions.SolarIrradiation.BaseClasses;
 block RelativeAirMass "Relative air mass"
   extends Modelica.Blocks.Icons.Block;
+  parameter Modelica.SIunits.Length alt = 1 "location altitude";
   Modelica.Blocks.Interfaces.RealInput zen(
     quantity="Angle",
     unit="rad",
@@ -17,7 +18,7 @@ equation
     Modelica.Constants.pi/2,
     0.01);
   zenDeg = zenLim*180/Modelica.Constants.pi;
-  relAirMas = 1/(Modelica.Math.cos(zenLim) + 0.15*(93.9 - zenDeg)^(-1.253));
+  relAirMas = exp(-0.0001184*alt)/(Modelica.Math.cos(zenLim) + 0.15*(93.9 - zenDeg)^(-1.253));
   annotation (
     defaultComponentName="relAirMas",
     Documentation(info="<html>
@@ -30,6 +31,12 @@ R. Perez (1999).
 Emailed by R. Perez to F.C. Winkelmann on May 21, 1999.<br/>
 </html>", revisions="<html>
 <ul>
+<li>
+May 2, 2021, by Ettore Zanetti:
+Introduced altitude attenuation for relative air mass calculation.
+This is for
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\">IBPSA, issue 1477</a>.
+</li>
 <li>
 April 27, 2018, by Michael Wetter:<br/>
 Corrected <code>displayUnit</code>.<br/>

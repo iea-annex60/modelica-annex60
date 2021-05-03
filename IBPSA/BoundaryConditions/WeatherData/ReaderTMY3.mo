@@ -231,6 +231,9 @@ block ReaderTMY3 "Reader for TMY3 weather data"
   final parameter Modelica.SIunits.Time timZon(displayUnit="h")=
     IBPSA.BoundaryConditions.WeatherData.BaseClasses.getTimeZoneTMY3(filNam)
     "Time zone";
+  final parameter Modelica.SIunits.Length alt(displayUnit="m")=
+    IBPSA.BoundaryConditions.WeatherData.BaseClasses.getAltitudeLocationTMY3(filNam)
+    "Altitude";
 
 protected
   final parameter Modelica.SIunits.Time[2] timeSpan=
@@ -399,7 +402,8 @@ protected
     annotation (Placement(transformation(extent={{-150,-290},{-130,-270}})));
   Longitude longitude(final longitude=lon) "Longitude"
     annotation (Placement(transformation(extent={{-120,-282},{-100,-262}})));
-
+  Altitude altitude(final Altitude=alt) "Altitude"
+    annotation (Placement(transformation(extent={{226,94},{246,114}})));
   //---------------------------------------------------------------------------
   // Optional instanciation of a block that computes the wet bulb temperature.
   // This block may be needed for evaporative cooling towers.
@@ -513,6 +517,49 @@ First implementation.
 </ul>
 </html>"));
   end Longitude;
+ 
+  block Altitude "Generate constant signal of type Real"
+    extends Modelica.Blocks.Icons.Block;
+
+    parameter Modelica.SIunits.Length Altitude "Altitude";
+
+    Modelica.Blocks.Interfaces.RealOutput y(
+      unit="m") "Altitude of the location"
+      annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+  equation
+    y = Altitude;
+    annotation (
+    Icon(coordinateSystem(
+        preserveAspectRatio=true,
+        extent={{-100,-100},{100,100}}), graphics={
+        Text(
+          extent={{-81,32},{84,-24}},
+          lineColor={0,0,0},
+            textString="Altitude")}),
+    Documentation(info="<html>
+<p>
+Block to output the Altitude of the location.
+This block is added so that the Altitude is displayed
+with a comment in the GUI of the weather bus connector.
+</p>
+<h4>Implementation</h4>
+<p>
+If
+<a href=\"modelica://Modelica.Blocks.Sources.Constant\">
+Modelica.Blocks.Sources.Constant</a> where used, then
+the comment for the Altitude would be \"Connector of Real output signal\".
+As this documentation string cannot be overwritten, a new block
+was implemented.
+</p>
+</html>", revisions="<html>
+<ul>
+<li>
+May 2, 2021, by Ettore Zanetti:<br/>
+First implementation.
+</li>
+</ul>
+</html>"));
+  end Altitude;
 
 equation
 
@@ -809,7 +856,12 @@ equation
   connect(latitude.y, weaBus.lat) annotation (Line(
       points={{-129,-280},{-124,-280},{-124,-290},{290,-290},{290,0},{300,0}},
       color={0,0,127}));
-
+  connect(altitude.y, weaBus.alt) annotation (Line(points={{247,104},{290,104},{
+          290,0},{300,0}}, color={0,0,127}), Text(
+      string="%second",
+      index=1,
+      extent={{6,3},{6,3}},
+      horizontalAlignment=TextAlignment.Left));
   connect(chePre.pAtm, weaBus.pAtm) annotation (Line(points={{181,270},{220,270},
           {220,0},{300,0}}, color={0,0,127}), Text(
       string="%second",
@@ -1542,6 +1594,12 @@ Technical Report, NREL/TP-581-43156, revised May 2008.
 </ul>
 </html>", revisions="<html>
 <ul>
+<li>
+May 2, 2021, by Ettore Zanetti:<br/>
+Added altitude to parameters.<br/>
+This is for
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\">#1477</a>.
+</li>
 <li>
 October 4, 2020, by Ettore Zanetti:<br/>
 Updated documentation for Java weather file generator.<br/>

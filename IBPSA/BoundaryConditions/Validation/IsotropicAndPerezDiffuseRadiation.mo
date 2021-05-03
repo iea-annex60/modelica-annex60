@@ -16,6 +16,8 @@ model IsotropicAndPerezDiffuseRadiation
   parameter Modelica.SIunits.Angle azi(
     displayUnit="deg")
     "Azimuth angle";
+  parameter Modelica.SIunits.Length alt
+    "Altitude";
   parameter Real rho=0.2
     "Ground reflectance";
   SolarIrradiation.DirectTiltedSurface HDir(
@@ -36,6 +38,7 @@ model IsotropicAndPerezDiffuseRadiation
     rho=rho,
     lat=lat,
     azi=azi,
+	alt=alt,
     outSkyCon=true,
     outGroCon=true)
     "Diffused radiation using Perez"
@@ -78,6 +81,12 @@ equation
     Documentation(
       revisions="<html>
 <ul>
+<li>
+May 2, 2021, by Ettore Zanetti:<br/>
+Added altitude to parameters.<br/>
+This is for
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\">#1477</a>.
+</li>
 <li>
 October 25, 2020, by Ettore Zanetti:<br/>
 Updated comments for variable descriptions

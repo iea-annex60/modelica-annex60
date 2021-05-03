@@ -19,8 +19,10 @@ SourceSelector
 SourceSelectorRadiation
 getAbsolutePath
 getHeaderElementTMY3
+getLastHeaderElementTMY3
 getLatitudeTMY3
 getLongitudeTMY3
 getTimeSpanTMY3
 getTimeZoneTMY3
+getAltitudeLocationTMY3
 Examples

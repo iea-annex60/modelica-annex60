@@ -25,7 +25,7 @@ equation
       textString="%second",
       index=1,
       extent={{6,3},{6,3}}));
-  connect(weaBus.HGloHor, skyCle.HGloHor) annotation (Line(
+  connect(weaBus.HDirNor, skyCle.HDirNor) annotation (Line(
       points={{8,30},{24,30},{24,16},{38,16}},
       color={255,204,51},
       thickness=0.5), Text(

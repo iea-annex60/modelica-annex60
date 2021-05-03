@@ -50,7 +50,7 @@ Rework after comments from pull request
 </tr>
 <tr>
 <td><p>Time Zone</p></td>
-<td><p>7</p></td>
+<td><p>-7</p></td>
 </tr>
 </table>
 </html>"));
