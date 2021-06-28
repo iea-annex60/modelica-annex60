@@ -7,6 +7,12 @@ EffectiveAirLeakageArea
 MediumColumn
 MediumColumnDynamic
 Orifice
+Powerlaw_1Datapoint
+Powerlaw_2Datapoints
+Powerlaw_V_flow
+Powerlaw_m_flow
+TableData_V_flow
+TableData_m_flow
 ZonalFlow_ACS
 ZonalFlow_m_flow
 Types

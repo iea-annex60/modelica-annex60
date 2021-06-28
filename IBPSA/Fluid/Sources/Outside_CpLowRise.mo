@@ -1,6 +1,6 @@
 within IBPSA.Fluid.Sources;
 model Outside_CpLowRise
-  "Boundary that takes weather data as an input and computes wind pressure for low-rise buildings"
+  "Boundary that takes weather data as an input and computes the wind pressure for low-rise buildings based on the equation from Swami and Chandra (1987)"
   extends IBPSA.Fluid.Sources.BaseClasses.Outside;
 
   parameter Real Cp0(min=0, max=1, final unit="1") = 0.6
@@ -112,6 +112,13 @@ where
 <i>&rho;</i> is the fluid density.
 </p>
 
+<p>
+This model differs from  <a href=\"modelica://IBPSA.Fluid.Sources.Outside_CpData\"> 
+IBPSA.Fluid.Sources.Outside_CpData</a> by the calculation of the wind pressure coefficient (C<sub>p,act</sub>).
+The wind pressure coefficient is defined by a generalized equation in stead of a user-defined table. 
+This model is only suited for low-rise rectangular buildings.
+</p>
+
 <h4>References</h4>
 <ul>
 <li>
@@ -139,6 +146,10 @@ Gaithersburg, MD.
 </html>",
 revisions="<html>
 <ul>
+<li>
+Jun 28, 2021, by Klaas De Jonge (UGent):<br/>
+Documentation changes to explain the difference with <a href=\"modelica://IBPSA.Fluid.Sources.Outside_CpData\"> 
+IBPSA.Fluid.Sources.Outside_CpData</a></li>
 <li>
 January 26, 2016, by Michael Wetter:<br/>
 Added <code>unit</code> and <code>quantity</code> attributes.

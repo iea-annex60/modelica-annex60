@@ -1,6 +1,6 @@
 within IBPSA.Airflow.Multizone;
 model EffectiveAirLeakageArea "Effective air leakage area"
-  extends IBPSA.Airflow.Multizone.BaseClasses.PowerLawResistance(
+  extends IBPSA.Airflow.Multizone.BaseClasses.PartialPowerLawResistance_V_flow(
     m=0.65,
     final k=L * CDRat * sqrt(2.0/rho_default) * dpRat^(0.5-m));
 
@@ -15,8 +15,8 @@ model EffectiveAirLeakageArea "Effective air leakage area"
 
   parameter Modelica.SIunits.Area L(min=0) "Effective leakage area";
 
-equation
-   v = V_flow/L;
+  Modelica.SIunits.Velocity v(nominal=1) = V_flow/L "Average velocity";
+
   annotation (Icon(graphics={
         Rectangle(
           extent={{-50,48},{50,-42}},
@@ -30,22 +30,6 @@ equation
           pattern=LinePattern.None,
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid),
-        Text(
-          extent={{-104,92},{-20,54}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid,
-          textString=
-               "L=%L"),
-        Text(
-          extent={{22,94},{98,56}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid,
-          textString=
-               "m=%m"),
         Rectangle(
           extent={{-100,6},{-64,-6}},
           lineColor={0,0,255},
@@ -124,10 +108,15 @@ National Institute of Standards and Technology,
 Tech. Report NISTIR 6921,
 November, 2002.
 </li>
+<li>Michael Wetter. <a href=\"modelica://IBPSA/Resources/Images/Airflow/Multizone/Wetter-airflow-2006.pdf\">Multizone Airflow Model in Modelica.</a> Proc. of the 5th International Modelica Conference, p. 431-440. Vienna, Austria, September 2006. </li>
 </ul>
 </html>",
 revisions="<html>
 <ul>
+<li>
+Apr 6, 2021, by Klaas De Jonge (UGent):<br/>
+Changes due to changes in the baseclass, 'velocity' is now a top-level output. 
+</li>
 <li>
 June 24, 2018, by Michael Wetter:<br/>
 Removed parameter <code>lWet</code> as it is only used to compute
