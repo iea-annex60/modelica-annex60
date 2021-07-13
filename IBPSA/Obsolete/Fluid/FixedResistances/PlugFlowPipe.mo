@@ -1,7 +1,6 @@
-within IBPSA.Fluid.FixedResistances;
-model PlugFlowPipe
-  "Pipe model using spatialDistribution for temperature delay"
-  extends IBPSA.Fluid.Interfaces.PartialTwoPort;
+within IBPSA.Obsolete.Fluid.FixedResistances;
+model PlugFlowPipe "Pipe model using spatialDistribution for temperature delay"
+  extends IBPSA.Fluid.Interfaces.PartialTwoPortVector;
 
   constant Boolean homotopyInitialization = true "= true, use homotopy method"
     annotation(HideResult=true);
@@ -113,16 +112,16 @@ model PlugFlowPipe
   // See also IBPSA.Fluid.FixedResistances.Validation.PlugFlowPipes.TransportWaterAir
   // for why mSenFac is 10 and not 1000, as this gives more reasonable
   // temperature step response
-  Fluid.MixingVolumes.MixingVolume vol(
+  IBPSA.Fluid.MixingVolumes.MixingVolume vol(
     redeclare final package Medium = Medium,
     final m_flow_nominal=m_flow_nominal,
     final V=if rho_default > 500 then VEqu else VEqu/1000,
-    final nPorts=2,
+    final nPorts=nPorts + 1,
     final T_start=T_start_out,
     final energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     final mSenFac=if rho_default > 500 then 1 else 10)
-    "Control volume connected to port_b. Represents equivalent pipe wall thermal capacity."
-    annotation (Placement(transformation(extent={{40,20},{60,40}})));
+    "Control volume connected to ports_b. Represents equivalent pipe wall thermal capacity."
+    annotation (Placement(transformation(extent={{60,20},{80,40}})));
 
 protected
   parameter Modelica.SIunits.HeatCapacity CPip=
@@ -157,16 +156,19 @@ initial equation
     level = AssertionLevel.warning);
 
 equation
+  for i in 1:nPorts loop
+    connect(vol.ports[i + 1], ports_b[i])
+    annotation (Line(points={{70,20},{72,20},{72,6},{72,0},{100,0}},
+        color={0,127,255}));
+  end for;
   connect(cor.heatPort, heatPort)
     annotation (Line(points={{0,10},{0,10},{0,100}}, color={191,0,0}));
 
   connect(cor.port_b, vol.ports[1])
-    annotation (Line(points={{10,0},{48,0},{48,20}}, color={0,127,255}));
+    annotation (Line(points={{10,0},{70,0},{70,20}}, color={0,127,255}));
 
-  connect(vol.ports[2], port_b) annotation (Line(points={{52,20},{52,20},{52,0},
-          {100,0}}, color={0,127,255}));
-  connect(port_a, cor.port_a)
-    annotation (Line(points={{-100,0},{-10,0}}, color={0,127,255}));
+  connect(cor.port_a, port_a)
+    annotation (Line(points={{-10,0},{-56,0},{-100,0}}, color={0,127,255}));
   annotation (
     Line(points={{70,20},{72,20},{72,0},{100,0}}, color={0,127,255}),
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
@@ -212,15 +214,12 @@ d = %dh")}),
     Documentation(revisions="<html>
 <ul>
 <li>
-July 9, 2021, by Baptiste Ravache:<br/>
-Replaced the vectorized outlet port <code>ports_b</code> with
-a single outlet port <code>port_b</code>.<br/>
+July 12, 2021, by Baptiste Ravache:<br/>
+This class is obsolete and replaced by
+<a href=\"modelica://IBPSA.Fluid.FixedResistances.PlugFlowPipe\">
+IBPSA.Fluid.FixedResistances.PlugFlowPipe</a>.<br/>
 This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1494\">IBPSA, #1494</a>.<br/>
-This change is not backward compatible.<br/>
-The previous class definition was moved to
-<a href=\"modelica://IBPSA.Obsolete.Fluid.FixedResistances.PlugFlowPipe\">
-IBPSA.Obsolete.Fluid.FixedResistances.PlugFlowPipe</a>.
+<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1494\">IBPSA, #1494</a>.
 </li>
 <li>
 April 14, 2020, by Michael Wetter:<br/>
@@ -282,6 +281,8 @@ The thermal capacity of the pipe wall is implemented as a mixing volume
 of the fluid in the pipe, of which the thermal capacity
 is equal to that of the pipe wall material.
 In addition, this mixing volume allows the hydraulic separation of subsequent pipes.
+Thanks to the vectorized implementation of the (design) outlet port,
+splits and junctions of pipes can be handled in a numerically efficient way.
 <br/>
 This mixing volume is not present in the
 <a href=\"modelica://IBPSA.Fluid.FixedResistances.BaseClasses.PlugFlowCore\">PlugFlowCore</a> model,
@@ -301,7 +302,7 @@ The boundary temperature is uniform.
 </li>
 <li>
 The thermal inertia of the pipe wall material is lumped on the side of the pipe
-that is connected to <code>port_b</code>.
+that is connected to <code>ports_b</code>.
 </li>
 </ul>
 <h4>References</h4>

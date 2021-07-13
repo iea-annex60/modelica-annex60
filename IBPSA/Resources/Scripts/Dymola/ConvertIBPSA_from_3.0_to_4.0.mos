@@ -116,3 +116,6 @@ convertModifiers(
 convertClass(
     "IBPSA.Fluid.Actuators.Dampers.VAVBoxExponential",
     "IBPSA.Fluid.Actuators.Dampers.Exponential");
+
+convertClass("IBPSA.Fluid.FixedResistances.PlugFlowPipe",
+             "IBPSA.Obsolete.Fluid.FixedResistances.PlugFlowPipe");
